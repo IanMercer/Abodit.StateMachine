@@ -1,0 +1,652 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AboditStatemachine</name>
+    </assembly>
+    <members>
+        <member name="T:Abodit.StateMachine.CompoundStateMachineAsync`6">
+             <summary>
+             A compound state machine is essentially a cross product of two state machines sharing the same event type.
+             </summary>
+             <remarks>
+             See: http://en.wikipedia.org/wiki/UML_state_machine#Orthogonal_regions
+            
+             Wikipedia: In most real-life situations, however, orthogonal regions are only approximately orthogonal (i.e., they are not independent).
+             Therefore, UML statecharts provide a number of ways for orthogonal regions to communicate and synchronize their behaviors.
+             From these rich sets of (sometimes complex) mechanisms, perhaps the most important is that orthogonal regions can coordinate
+             their behaviors by sending event instances to each other.
+             </remarks>
+        </member>
+        <member name="F:Abodit.StateMachine.CompoundStateMachineAsync`6.firstStateMachine">
+            <summary>
+            Gets the first state machine
+            </summary>
+        </member>
+        <member name="F:Abodit.StateMachine.CompoundStateMachineAsync`6.secondStateMachine">
+            <summary>
+            Gets the second state machine
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.CompoundStateMachineAsync`6.#ctor(`0,`1)">
+            <summary>
+            Creates a new <see cref="T:Abodit.StateMachine.CompoundStateMachineAsync`6"/>
+            </summary>
+            <remarks>
+            Starts with a state equal to the two state machines combined state
+            </remarks>
+        </member>
+        <member name="M:Abodit.StateMachine.CompoundStateMachineAsync`6.Tick(System.DateTimeOffset,`5,System.Int32)">
+            <summary>
+            Tick on both state machines
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.CompoundStateMachineAsync`6.EventHappens(`4,`5)">
+            <summary>
+            An event happens, transition both state machines
+            </summary>
+        </member>
+        <member name="T:Abodit.StateMachine.Event">
+            <summary>
+            An event that causes the state machine to transition to a new state - you can use any object
+            that implements IEquatable of T.  You might also want to mark it Serializable.
+            </summary>
+            <remarks>
+            Using this class you can create simple named events that have all of the required properties to work in the State Machine
+            </remarks>
+        </member>
+        <member name="P:Abodit.StateMachine.Event.Name">
+            <summary>
+            Events with the same name (within a state machine) are considered to be the same event
+            so you don't need the specific same Event in order to fire it
+            Unlike States where we do extra work to get a consistent stateDefinition
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.Event.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the <see cref="T:Abodit.StateMachine.Event"/> class
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.Event.ToString">
+            <summary>
+            ToString
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.Event.Equals(System.Object)">
+            <summary>
+            Equals
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.Event.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abodit.StateMachine.Event.op_Equality(Abodit.StateMachine.Event,Abodit.StateMachine.Event)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Abodit.StateMachine.Event.op_Inequality(Abodit.StateMachine.Event,Abodit.StateMachine.Event)">
+            <summary>
+            Equals
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.Event.Equals(Abodit.StateMachine.Event)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Abodit.StateMachine.EventHappensArgs`2">
+            <summary>
+            Arguments for an event that is fired when an Event happens
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.EventHappensArgs`2.DateTimeOffset">
+            <summary>
+            The DateTimeOffset of the Event
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.EventHappensArgs`2.Context">
+            <summary>
+            The context
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.EventHappensArgs`2.Event">
+            <summary>
+            The event
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.EventHappensArgs`2.#ctor(`0,`1,System.DateTimeOffset)">
+            <summary>
+            Creates a new instance of the <see cref="T:Abodit.StateMachine.EventHappensArgs`2"/> class
+            </summary>
+        </member>
+        <member name="T:Abodit.StateMachine.IStateMachineAsync`3">
+            <summary>
+            Interface for a StateMachine
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.IStateMachineAsync`3.CurrentState">
+            <summary>
+            Get the current state. Calling set will not trigger entry and exit actions, use only for serialization.
+            </summary>
+        </member>
+        <member name="E:Abodit.StateMachine.IStateMachineAsync`3.EventHappened">
+            <summary>
+            An event has happened
+            </summary>
+        </member>
+        <member name="E:Abodit.StateMachine.IStateMachineAsync`3.StateChanges">
+            <summary>
+            The State has changed
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.IStateMachineAsync`3.SetTimedEvents(System.Collections.Generic.IEnumerable{Abodit.StateMachine.TimedEvent{`1}})">
+            <summary>
+            Sets the TimedEvents on the state machine (used only during loading from persistence)
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.IStateMachineAsync`3.Start(`0)">
+            <summary>
+            Start the state machine in the given state
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.IStateMachineAsync`3.Tick(System.DateTimeOffset,`2,System.Int32)">
+            <summary>
+            The Tick method must be called regularly if you want timed events to work
+            </summary>
+            <param name="now"></param>
+            <param name="context"></param>
+            <param name="limitOnNumberExecuted"></param>
+        </member>
+        <member name="M:Abodit.StateMachine.IStateMachineAsync`3.EventHappens(`1,`2)">
+            <summary>
+            An external event happens, trigger the state machine
+            </summary>
+            <param name="event"></param>
+            <param name="context"></param>
+        </member>
+        <member name="T:Abodit.StateMachine.StateMachineAsync`3">
+             <summary>
+             A state machine allows you to track state and to take actions when states change
+             </summary>
+             <remarks>
+             This state machine provides a fluent interface for defining states and transitions
+            
+             When you inherit from this abstract base class you define the types you want to use
+             for Events and States.
+            
+             NB This is a 'curiously self-referencing generic'. This ensures that State objects are not
+             shared across two StateMachines even if they have the same generic arguments. It also
+             makes some syntax nicer and eliminates casting on the consumption side.
+             Other than that, I hate the pattern as it's confusingly complex.
+            
+             NB No other properties of the object being tracked should be stored in the State object,
+             the State object should know only about the State name that it represents. (SRP)
+            
+             Also has timed events set to fire at some point in the future but provides no Timer internally because
+             that will be implementation dependent.  For example the State may exist in a serialized form
+             in a database with the NextTimedEventAt property exposed for indexing and some external timer fecthing
+             records and calling the Tick() method.
+             </remarks>
+        </member>
+        <member name="T:Abodit.StateMachine.StateMachineAsync`3.State">
+            <summary>
+            A state that the state machine can be in
+            </summary>
+            <remarks>
+            This is defined as a nested class to ensure each state machine has only the states that were defined for it
+            and not for some other state machine. The State class delegates almost everything to the StateDefinition that
+            is stored statically for each StateMachine.
+            </remarks>
+        </member>
+        <member name="P:Abodit.StateMachine.StateMachineAsync`3.State.Name">
+            <summary>
+            The Name of this state (all states with the same Name are considered equal even if they are different objects)
+            </summary>
+            <remarks>
+            This makes serialization and deserialization easier
+            </remarks>
+        </member>
+        <member name="F:Abodit.StateMachine.StateMachineAsync`3.State.stateDefinition">
+            <summary>
+            Our state definition stores everything we need to know - our entry and exit actions, our parentage, ...
+            Every state with the same name within a StateMachine has the same definition
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.StateMachineAsync`3.State.ParentState">
+            <summary>
+            States can optionally be organized hierarchically
+            The hierarchy is set by the initial static creation of States
+            not by some later states that are loaded from serialized versions
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.#ctor">
+            <summary>
+            Empty constuctor for serialization only
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.#ctor(System.String)">
+            <summary>
+            Create a new State with a name
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.TryGet(System.String,Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State@)">
+            <summary>
+            Get a state by name, if it exists (suitable for use during deserialization from a string)
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.OnEvent(`0,`1,`2)">
+            <summary>
+            Act on an event, return the new state or null if there are no transitions possible (even inherited)
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.ToString">
+            <summary>
+            ToString
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.When(`1,System.Func{`0,Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State,`1,`2,System.Threading.Tasks.Task{Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State}})">
+            <summary>
+            Define what happens 'When' an event happens while in this state.
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.When(`1,Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State)">
+            <summary>
+            A simple form of When with no action (unless you defined actions for entering or leaving states)
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.OnEnter(System.Func{Abodit.StateMachine.StateMachineAsync{`0,`1,`2},`1,Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State,`2,System.Threading.Tasks.Task})">
+            <summary>
+            Add an action that happens when this state is entered
+            </summary>
+            <remarks>
+            This is an alternative to setting it in the state constructor
+            </remarks>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.OnExit(System.Func{Abodit.StateMachine.StateMachineAsync{`0,`1,`2},Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State,`1,`2,System.Threading.Tasks.Task})">
+            <summary>
+            Add an action that happens when this state exits
+            </summary>
+            <remarks>
+            This is an alternative to setting it in the state constructor
+            </remarks>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.Is(Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State)">
+            <summary>
+            Test this state to see if it 'is' the other state, i.e. if it is the same or inherits from it
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Gets the ObjectData for serialization
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.Equals(Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State)">
+            <summary>
+            Equals
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.Equals(System.Object)">
+            <summary>
+            Equals
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.op_Equality(Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State,Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State)">
+            <summary>
+            Equals
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.op_Inequality(Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State,Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State)">
+            <summary>
+            Not Equals
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.GetHashCode">
+            <summary>
+            GetHashCode
+            </summary>
+        </member>
+        <member name="T:Abodit.StateMachine.StateMachineAsync`3.StateDefinition">
+            <summary>
+            The static State Definitions that are created for a StateMachine
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.StateDefinition.GetState">
+            <summary>
+            Get a State object from a StateDef
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Abodit.StateMachine.StateMachineAsync`3.StateDefinition.Name">
+            <summary>
+            The Name of this state definition
+            </summary>
+            <remarks>
+            Used for serialization of the state machine, also handy for debugging
+            </remarks>
+        </member>
+        <member name="P:Abodit.StateMachine.StateMachineAsync`3.StateDefinition.SelfAndAncestorsInAscendingOrder">
+            <summary>
+            Get the ancestor states in ascending order, top-most state last
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.StateMachineAsync`3.StateDefinition.AncestorsInAscendingOrder">
+            <summary>
+            Get the ancestor states in ascending order, top-most state last
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.StateDefinition.#ctor(System.String,System.Func{`0,`1,Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State,`2,System.Threading.Tasks.Task},System.Func{`0,Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State,`1,`2,System.Threading.Tasks.Task},Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State)">
+            <summary>
+            Create a new State with a name and an optional entry and exit action
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.#ctor">
+            <summary>
+            Empty constructor for serialization only
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.#ctor(Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State)">
+            <summary>
+            Construct a state machine with an initial state
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.EventHappens(`1,`2)">
+            <summary>
+            An event has happened, transition to next state
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineAsync`3.AddState(System.String,System.Func{`0,`1,Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State,`2,System.Threading.Tasks.Task},System.Func{`0,Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State,`1,`2,System.Threading.Tasks.Task},Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State)">
+            <summary>
+            Add a new state definition
+            </summary>
+        </member>
+        <member name="T:Abodit.StateMachine.StateMachineBaseAsync`3">
+            <summary>
+            The base StateMachine
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.StateMachineBaseAsync`3.CurrentState">
+            <summary>
+            The current state of this State machine
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.StateMachineBaseAsync`3.NextTimedEventAt">
+            <summary>
+            The time (compare UTC) at which this state machine needs to receive a wake up from an external timing component
+            </summary>
+        </member>
+        <member name="E:Abodit.StateMachine.StateMachineBaseAsync`3.StateChanges">
+            <summary>
+            A public Event that advises of any changes in state that actually happen
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.#ctor(`0)">
+            <summary>
+            Creates a new <see cref="T:Abodit.StateMachine.StateMachineBaseAsync`3"/>
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.OnStateChanging(`2,`0,`0)">
+            <summary>
+            Called prior to the state actually changing
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.OnStateChanged(`2,`0,`0)">
+            <summary>
+            Called after the state has changed
+            </summary>
+        </member>
+        <member name="E:Abodit.StateMachine.StateMachineBaseAsync`3.EventHappened">
+            <summary>
+            A public Event that advises of any events that have happened
+            </summary>
+            <remarks>
+            Can thus expose timer events to the outside world without changing state
+            </remarks>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.OnEventHappens(`2,`1)">
+            <summary>
+            Fires when this event happens
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.StateMachineBaseAsync`3.TimedEvents">
+            <summary>
+            Future events set on this StateMachine (Serializable, so public and settable, but use it only for serialization)
+            </summary>
+            <remarks>
+            Each StateMachine has its own small set of future events.  Typically this list will be very small; when an event fires
+            it might record a future event that needs to be executed
+            </remarks>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.SetTimedEvents(System.Collections.Generic.IEnumerable{Abodit.StateMachine.TimedEvent{`1}})">
+            <summary>
+            Set the timed events
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.RecalculateNextTimedEvent">
+            <summary>
+            Recalculate the next timed event
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.Start(`0)">
+            <summary>
+            Most State machines have a Start() method that moves them to their initial state
+            </summary>
+            <remarks>
+            Not really needed, use constructor with State value, deprecate?
+            </remarks>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.Tick(System.DateTimeOffset,`2,System.Int32)">
+            <summary>
+            Find any events that should have fired by now and execute up to a maximum set number of them
+            (e.g. use the number to limit how long this method can run for in worst case before you persist the state
+             machine to disk)
+            </summary>
+            <param name="now">The current time (passed as a parameter to make this method testable)</param>
+            <param name="context">A context object</param>
+            <param name="limitOnNumberExecuted">In order to prevent runaway execution of a misconfigured recurring event set a maximum number of executions</param>
+            <remarks>
+            Note: These events are executed synchronously on the calling thread
+            Caller should persist this object (if necessary) after all timedEvents have been processed
+            Timed events may themselves add new events to the event queue.  These new events will happen
+            immediately in this method if they themselves are already past due
+            </remarks>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.At(System.DateTimeOffset,`1)">
+            <summary>
+            At a certain time, cause a certain event to happen
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.At(System.DateTime,`1)">
+            <summary>
+            At a certain time Utc, cause a certain event to happen
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.After(System.TimeSpan,`1)">
+            <summary>
+            After a certain period, cause a certain event to happen
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.Bump(System.TimeSpan,`1)">
+            <summary>
+            After a certain period, cause a certain event to happen, but only if that event
+            is already present in the queue
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.AfterOrBump(System.TimeSpan,`1)">
+            <summary>
+            After a certain period, cause a certain event to happen, but if that event is already
+            in the queue, bump it to the new time
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.Every(System.TimeSpan,`1)">
+            <summary>
+            Every time interval, cause a certain event to happen
+            </summary>
+            <remarks>
+            Uses TimePeriod not timespan because TimePeriod is more flexible (e.g. weeks, months, ...)
+            Use CancelScheduledEvent() to remove a repeated event
+            </remarks>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.CancelScheduledEvent(`1)">
+            <summary>
+            Removes any scheduled or recurring events that would fire the given event
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateMachineBaseAsync`3.EventHappens(`1,`2)">
+            <summary>
+            An event has happened, transition to next state
+            </summary>
+        </member>
+        <member name="T:Abodit.StateMachine.StateTransitionArgs`2">
+            <summary>
+            Arguments for an event that is fired when the state transitions
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.StateTransitionArgs`2.DateTimeOffset">
+            <summary>
+            The DateTimeOffset when the state transition happened
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.StateTransitionArgs`2.Context">
+            <summary>
+            The context object
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.StateTransitionArgs`2.OldState">
+            <summary>
+            The old state
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.StateTransitionArgs`2.NewState">
+            <summary>
+            The new state
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.StateTransitionArgs`2.#ctor(`0,`1,`1,System.DateTimeOffset)">
+            <summary>
+            Creates a new <see cref="T:Abodit.StateMachine.StateTransitionArgs`2"/>
+            </summary>
+        </member>
+        <member name="T:Abodit.StateMachine.TimedEvent`1">
+            <summary>
+            A event that should fire at a particular time, used inside a StateMachine
+            </summary>
+            <remarks>
+            Serializable so you can persist a state machine to disk if necessary
+            TEvent must be IEquatable also
+            </remarks>
+        </member>
+        <member name="P:Abodit.StateMachine.TimedEvent`1.AtUtc">
+            <summary>
+            The time at which the event should happen
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.TimedEvent`1.Event">
+            <summary>
+            The event that happens
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.TimedEvent`1.AutoRepeatTicks">
+            <summary>
+            Autorepeat after this many ticks
+            </summary>
+            <remarks>
+            Would have used a TimeSpan but they don't XML Serialize
+            </remarks>
+        </member>
+        <member name="M:Abodit.StateMachine.TimedEvent`1.NextOccurrence">
+            <summary>
+            Get the next occurrence (after autorepeat)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Abodit.StateMachine.TimedEvent`1.ToString">
+            <summary>
+            ToString
+            </summary>
+        </member>
+        <member name="T:Abodit.StateMachine.DefaultTimeProvider">
+            <summary>
+            The default time provider uses DateTime.UtcNow
+            </summary>
+        </member>
+        <member name="F:Abodit.StateMachine.DefaultTimeProvider.Instance">
+            <summary>
+            A singleton instance of the default time provider
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.DefaultTimeProvider.Now">
+            <summary>
+            Now
+            </summary>
+        </member>
+        <member name="T:Abodit.StateMachine.ManualTimeProvider">
+            <summary>
+            The ManualTimeProvider is good for testing - you can manually advance time as you wish to simulate real time
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.ManualTimeProvider.Now">
+            <summary>
+            Get the Now time
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.ManualTimeProvider.#ctor">
+            <summary>
+            Create a new ManualTimeProvider for testing (starting at curent UtcNow time)
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.ManualTimeProvider.#ctor(System.DateTimeOffset)">
+            <summary>
+            Create a new ManualTimeProvider for testing starting at a specific time
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.ManualTimeProvider.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new ManualTimeProvider for testing starting at a specific year month day at 12:30:36
+            </summary>
+        </member>
+        <member name="M:Abodit.StateMachine.ManualTimeProvider.Add(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Add a given interval to the current time
+            </summary>
+        </member>
+        <member name="T:Abodit.StateMachine.TimeProvider">
+            <summary>
+            TimeProvider allows for replacement of DateTimeOffset.UtcNow for testing and other situations
+            </summary>
+            <remarks>
+            The <see cref="T:Abodit.StateMachine.DefaultTimeProvider"/> calls through to DateTimeOffset.UtcNow.
+            A <see cref="T:Abodit.StateMachine.ManualTimeProvider"/> makes testing easy.
+            A time provider must NEVER go backwards in time.
+            </remarks>
+        </member>
+        <member name="P:Abodit.StateMachine.TimeProvider.Current">
+            <summary>
+            Set the current time provider
+            </summary>
+        </member>
+        <member name="F:Abodit.StateMachine.TimeProvider.EarliestFeasible">
+            <summary>
+            Earliest feasible date (1970,1,1)
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.TimeProvider.UtcNowUniqueTicks">
+            <summary>
+            Get the current Utc tick value but increment it to make it unique for each call to this function
+            so it can serve as a time stamp
+            </summary>
+        </member>
+        <member name="P:Abodit.StateMachine.TimeProvider.Now">
+            <summary>
+            DateTimeOffset now
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Abodit.StateMachine.TimeProvider.ResetToDefault" -->
+        <member name="M:Abodit.StateMachine.TimeProvider.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:Abodit.StateMachine.TimeProvider.StartUsing(Abodit.StateMachine.TimeProvider)">
+            <summary>
+            Start using a new time provider in a using block
+            </summary>
+            <param name="newTimeProvider">The new time provider to use</param>
+            <returns>An IDisposable that will revert to the old time provider when disposed</returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0;</TargetFrameworks>
+    <Description>A hierarchical state machine with temporal events.</Description>
+    <Product>Abodit.StateMachine</Product>
+    <Company>SignSwift LLC</Company>
+    <Authors>Ian Mercer</Authors>
+    <PackageId>Abodit.StateMachine</PackageId>
+    <Copyright>Ian Mercer 2005-2021</Copyright>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0</Version>
+    <AssemblyName>AboditStatemachine</AssemblyName>
+    <Nullable>enable</Nullable>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <!-- This must come after the above so that it overwrites it -->
+  <Import Project="$(MSBuildThisFileDirectory)\..\Shared.msbuild" />
+
+  <!-- Embed PBD files until symbol server support is added -->
+  <PropertyGroup>
+    <!-- Condition="'$(CI_EMBED_SYMBOLS)' == 'true'"> -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>
+      $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
+    </AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DocumentationFile>AboditUnits.xml</DocumentationFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nullable" Version="1.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
