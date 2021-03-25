@@ -9,7 +9,7 @@ Secondly, it's hierarchcical which means [you don't have to write as many rules]
 
 Thirdly, it includes timing features that work in a 'generative' fashion. For example, a recurring timed event only tracks the one next execution time. You can register any combination of `At`, `Every` or `After` timed events. Externally the state machine presents a single `NextTimedEventAt` property. This enables persistence of the state and timing information to a database and easy retrieval of any state machines that need to be run next. The async `Tick` call on the state machine advances to the next time and runs any exit, entry and other actions.
 
-Fourthly, it has a fluent easy to write syntax but also aims to be strongly-typed, both States and Events can be made specific to one state machine, they aren't just enums or strings.
+Fourthly, it has a fluent easy to write syntax but despite that, it also aims to be strongly-typed: both States and Events can be made specific to a single state machine; they aren't just enums or strings.
 
 ![State machine](https://user-images.githubusercontent.com/347540/112415752-a1804380-8ce1-11eb-8897-2221d33769c8.png)
 
