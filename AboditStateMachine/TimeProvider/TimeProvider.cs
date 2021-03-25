@@ -63,8 +63,8 @@ namespace Abodit.StateMachine
         /// </summary>
         public abstract DateTimeOffset Now { get; set; }
 
-        private DateTimeOffset LocalTodayStart => this.Now.Date;
-
+        /// <summary>
+        /// Reverts to a time provider using DateTimeOffset.Now
         /// </summary>
         public static void ResetToDefault()
         {

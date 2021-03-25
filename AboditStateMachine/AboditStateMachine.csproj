@@ -35,6 +35,7 @@
   <PropertyGroup>
     <DocumentationFile>AboditUnits.xml</DocumentationFile>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/IanMercer/AboditStateMachine</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

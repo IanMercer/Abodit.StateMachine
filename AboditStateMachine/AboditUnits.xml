@@ -625,7 +625,11 @@
             DateTimeOffset now
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Abodit.StateMachine.TimeProvider.ResetToDefault" -->
+        <member name="M:Abodit.StateMachine.TimeProvider.ResetToDefault">
+            <summary>
+            Reverts to a time provider using DateTimeOffset.Now
+            </summary>
+        </member>
         <member name="M:Abodit.StateMachine.TimeProvider.ToString">
             <inheritdoc />
         </member>
