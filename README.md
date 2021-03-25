@@ -87,3 +87,5 @@ Compared to the Wikipedia definition of a hierarchical state machine there is on
 An example of the use of this temporal capability would be the implementation of user messaging flow for a website. The user creates an account, verifies their email, uses the system for a while, then deletes their account. After creating their account a reminder Event is added to send them a welcome email, a week later a follow up 'how is it going' email and so on. When the state machine loads from the database it can check that the user has not deleted their account, can fire an event to send the appropriate email and can schedule the next email.
 
 Please take a look at the tests for examples of simple, hierarchical and compound state machines.
+
+Available on Nuget as https://www.nuget.org/packages/Abodit.StateMachine/, not to be confused with AboditStateMachine which is an earlier version of this source code.
