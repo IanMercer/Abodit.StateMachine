@@ -5,7 +5,7 @@ A state machine for .NET that implements easily serializable, async, hierarchica
 
 Firstly, it's async so the entry, exit or transition actions can use `async await`. 
 
-Secondly, it's hierarchcical which means [you don't have to write as many rules](https://www.cis.upenn.edu/~lee/06cse480/lec-HSM.pdf).
+Secondly, it's hierarchical which means [you don't have to write as many rules](https://www.cis.upenn.edu/~lee/06cse480/lec-HSM.pdf).
 
 Thirdly, it includes timing features that work in a 'generative' fashion. For example, a recurring timed event only tracks the one next execution time. You can register any combination of `At`, `Every` or `After` timed events. Externally the state machine presents a single `NextTimedEventAt` property. This enables persistence of the state and timing information to a database and easy retrieval of any state machines that need to be run next. The async `Tick` call on the state machine advances to the next time and runs any exit, entry and other actions.
 

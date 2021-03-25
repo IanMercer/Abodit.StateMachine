@@ -6,3 +6,4 @@ obj
 TestResults
 NuGet.Config
 .vs/AboditStateMachine/v16/TestStore
+.vs/
