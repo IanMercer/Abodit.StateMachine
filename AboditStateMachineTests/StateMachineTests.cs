@@ -389,7 +389,7 @@ namespace AboditStateMachineTests
 
             d.Add(minutes: 5);
 
-            u.Created();
+            await u.Created();
             await u.VerifiesEmail();
 
             await After(minutes: 10);
