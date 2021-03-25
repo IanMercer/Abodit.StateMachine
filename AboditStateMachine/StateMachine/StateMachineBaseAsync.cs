@@ -94,7 +94,7 @@ namespace Abodit.StateMachine
             if (this.TimedEvents.Any())
                 this.NextTimedEventAt = this.TimedEvents.Min(te => te.AtUtc);
             else
-                this.NextTimedEventAt = DateTime.MaxValue;      // never!
+                this.NextTimedEventAt = DateTimeOffset.MaxValue;      // never!
         }
 
         /// <summary>

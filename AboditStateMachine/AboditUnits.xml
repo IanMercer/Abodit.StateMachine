@@ -67,14 +67,10 @@
             </summary>
         </member>
         <member name="M:Abodit.StateMachine.Event.ToString">
-            <summary>
-            ToString
-            </summary>
+            <inheritdoc />
         </member>
         <member name="M:Abodit.StateMachine.Event.Equals(System.Object)">
-            <summary>
-            Equals
-            </summary>
+            <inheritdoc />
         </member>
         <member name="M:Abodit.StateMachine.Event.GetHashCode">
             <inheritdoc/>
@@ -83,9 +79,7 @@
             <inheritdoc/>
         </member>
         <member name="M:Abodit.StateMachine.Event.op_Inequality(Abodit.StateMachine.Event,Abodit.StateMachine.Event)">
-            <summary>
-            Equals
-            </summary>
+            <inheritdoc />
         </member>
         <member name="M:Abodit.StateMachine.Event.Equals(Abodit.StateMachine.Event)">
             <inheritdoc/>
@@ -277,14 +271,10 @@
             </summary>
         </member>
         <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.Equals(Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State)">
-            <summary>
-            Equals
-            </summary>
+            <inheritdoc />
         </member>
         <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.Equals(System.Object)">
-            <summary>
-            Equals
-            </summary>
+            <inheritdoc />
         </member>
         <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.op_Equality(Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State,Abodit.StateMachine.StateMachineAsync{`0,`1,`2}.State)">
             <summary>
@@ -297,9 +287,7 @@
             </summary>
         </member>
         <member name="M:Abodit.StateMachine.StateMachineAsync`3.State.GetHashCode">
-            <summary>
-            GetHashCode
-            </summary>
+            <inheritdoc />
         </member>
         <member name="T:Abodit.StateMachine.StateMachineAsync`3.StateDefinition">
             <summary>

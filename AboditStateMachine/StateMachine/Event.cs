@@ -36,18 +36,14 @@ namespace Abodit.StateMachine
             this.Name = name.TrimStart('~').TrimEnd('~');
         }
 
-        /// <summary>
-        /// ToString
-        /// </summary>
+        /// <inheritdoc />
         public override string ToString()
         {
             // MUST RETURN THE NAME EXACTLY AS THAT IS USE FOR SERIALIZATION AND DESERIALIZATION
             return this.Name;
         }
 
-        /// <summary>
-        /// Equals
-        /// </summary>
+        /// <inheritdoc />
         public override bool Equals(object? obj)
         {
             if (!(obj is Event)) return false;
@@ -72,9 +68,7 @@ namespace Abodit.StateMachine
             return a.Equals(b);
         }
 
-        /// <summary>
-        /// Equals
-        /// </summary>
+        /// <inheritdoc />
         public static bool operator !=(Event a, Event b)
         {
             return !(a == b);

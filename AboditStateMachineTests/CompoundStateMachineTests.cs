@@ -18,11 +18,9 @@ namespace AboditStateMachineTests
 
             using (TimeProvider.StartUsing(timeProvider))
             {
-                coolingStateMachine.CurrentState?.ToString().Should().Be("*Idle*");
+                coolingStateMachine.CurrentState.Should().Be(CoolingStateMachine.Idle);
                 await coolingStateMachine.TemperatureChanges(fridge, 40);
-                coolingStateMachine.CurrentState?.ToString().Should().Be("*Cooling*");
-
-                // TODO: Add a way to change the SET TEMPERATURE and test it too
+                coolingStateMachine.CurrentState.Should().Be(CoolingStateMachine.Cooling);
             }
         }
     }
@@ -40,13 +38,13 @@ namespace AboditStateMachineTests
 
             using (TimeProvider.StartUsing(timeProvider))
             {
-                openClosedStateMachine.CurrentState?.ToString().Should().Be("*Closed*");
+                openClosedStateMachine.CurrentState.Should().Be(OpenClosedStateMachine.Closed);
                 await fridge.DoorCloses();
-                openClosedStateMachine.CurrentState?.ToString().Should().Be("*Closed*");
+                openClosedStateMachine.CurrentState.Should().Be(OpenClosedStateMachine.Closed);
                 await fridge.DoorOpens();
-                openClosedStateMachine.CurrentState?.ToString().Should().Be("*Open*");
+                openClosedStateMachine.CurrentState.Should().Be(OpenClosedStateMachine.Open);
                 await fridge.DoorCloses();
-                openClosedStateMachine.CurrentState?.ToString().Should().Be("*Closed*");
+                openClosedStateMachine.CurrentState.Should().Be(OpenClosedStateMachine.Closed);
             }
         }
     }
@@ -58,67 +56,67 @@ namespace AboditStateMachineTests
         private readonly Fridge fridge = new Fridge { SetTemperature = 35, ActualTemperature = 34 };
 
         [TestMethod]
-        public void CanOperateFridge()
+        public async Task CanOperateFridge()
         {
             using (TimeProvider.StartUsing(timeProvider))
             {
                 fridge.StateString.Should().Be("Closed Idle Light off");
-                fridge.TemperatureChanges(40);
+                await fridge.TemperatureChanges(40);
                 fridge.StateString.Should().Be("Closed Cooling Light off");
 
-                fridge.TemperatureChanges(33);
+                await fridge.TemperatureChanges(33);
                 fridge.StateString.Should().Be("Closed Idle Light off");
 
-                fridge.DoorOpens();
+                await fridge.DoorOpens();
                 fridge.StateString.Should().Be("Open Idle Light on");
 
-                fridge.TemperatureChanges(40);
+                await fridge.TemperatureChanges(40);
                 fridge.StateString.Should().Be("Open Idle Light on");
 
-                fridge.DoorCloses();
+                await fridge.DoorCloses();
                 fridge.StateString.Should().Be("Closed Idle Light off");
 
                 timeProvider.Add(minutes: 5);
-                fridge.Tick();
+                await fridge.Tick();
                 fridge.StateString.Should().Be("Closed Cooling Light off");
 
-                fridge.DoorOpens();
+                await fridge.DoorOpens();
                 timeProvider.Add(minutes: 5);
-                fridge.Tick();
-                fridge.DoorCloses();
+                await fridge.Tick();
+                await fridge.DoorCloses();
                 fridge.StateString.Should().Be("Closed Idle Light off");
 
-                fridge.TemperatureChanges(40);
+                await fridge.TemperatureChanges(40);
                 fridge.StateString.Should().Be("Closed Cooling Light off");
 
-                fridge.DoorOpens();
+                await fridge.DoorOpens();
                 fridge.StateString.Should().Be("Open Idle Light on");
 
                 timeProvider.Add(minutes: 60);
-                fridge.Tick();
+                await fridge.Tick();
                 fridge.StateString.Should().Be("Open Defrosting Light on");
 
                 timeProvider.Add(minutes: 5);
-                fridge.Tick();
+                await fridge.Tick();
                 fridge.StateString.Should().Be("Open Cooling Light on");
 
-                fridge.DoorCloses();
+                await fridge.DoorCloses();
                 fridge.StateString.Should().Be("Closed Cooling Light off");
 
                 timeProvider.Add(minutes: 60);
-                fridge.Tick();
+                await fridge.Tick();
                 fridge.StateString.Should().Be("Closed Defrosting Light off");
 
-                fridge.DoorOpens();
+                await fridge.DoorOpens();
                 fridge.StateString.Should().Be("Open Defrosting Light on");
 
-                fridge.TemperatureChanges(40);
+                await fridge.TemperatureChanges(40);
                 fridge.StateString.Should().Be("Open Defrosting Light on");
 
-                fridge.DoorCloses();
+                await fridge.DoorCloses();
                 fridge.StateString.Should().Be("Closed Defrosting Light off");
 
-                fridge.TemperatureChanges(33);
+                await fridge.TemperatureChanges(33);
                 fridge.StateString.Should().Be("Closed Defrosting Light off");
             }
         }

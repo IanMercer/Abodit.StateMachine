@@ -199,18 +199,14 @@ namespace Abodit.StateMachine
 
             // States are the same if ther underlying definition is the same
 
-            /// <summary>
-            /// Equals
-            /// </summary>
+            /// <inheritdoc />
             public bool Equals(State? other)
             {
                 if (other is null) return false;
                 return this.stateDefinition == other.stateDefinition;
             }
 
-            /// <summary>
-            /// Equals
-            /// </summary>
+            /// <inheritdoc />
             public override bool Equals(object? obj)
             {
                 return obj is State s && Equals(s);
@@ -235,9 +231,7 @@ namespace Abodit.StateMachine
                 return !(a == b);
             }
 
-            /// <summary>
-            /// GetHashCode
-            /// </summary>
+            /// <inheritdoc />
             public override int GetHashCode()
             {
                 return this.stateDefinition.GetHashCode();

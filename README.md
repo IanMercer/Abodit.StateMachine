@@ -1,7 +1,17 @@
 AboditStateMachine
 ====
 
-A state machine for .NET that implements easily serializable, hierarchical state machines with timing.
+A state machine for .NET that implements an easily serializable, async, hierarchical state machines with timing. There are plenty of .NET State Machines out there, so what's different about this one?
+
+Firstly, it's async so the entry, exit or transition actions can use `async await`. 
+
+Secondly, it's hierarchcical which means [you don't have to write as many rules](https://www.cis.upenn.edu/~lee/06cse480/lec-HSM.pdf).
+
+Thirdly, it includes timing features that work in a 'generative' fashion. For example, a recurring timed event only tracks the one next execution time. You can register any combination of `At`, `Every` or `After` timed events. Externally the state machine presents a single next execution time property. This enables persistence of state and timing to a database and easy retrieval of any state machines that need to be run next. The async `Tick` call on the state machine advances to the next time and runs any exit, entry and other actions.
+
+Another novel aspect of the timing code is that it uses a `TimeProvider` which makes time 'mockable' for testing. A `ManualTimeProvider` can be set to any date/time and then advanced to trigger actions for testing. The default time provider runs on `DateTimeOffset.Now`.
+
+![State machine](https://user-images.githubusercontent.com/347540/112415752-a1804380-8ce1-11eb-8897-2221d33769c8.png)
 
 There are three components to the state machine:
 
