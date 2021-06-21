@@ -2,6 +2,8 @@
 using System;
 using System.Threading.Tasks;
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+
 namespace AboditStateMachineTests
 {
     /// <summary>
@@ -49,17 +51,28 @@ namespace AboditStateMachineTests
         static CoolingStateMachine()
         {
             Idle
-                .When(Fridge.eTemperatureChanges, (m, s, e, c) =>
-                    Task.FromResult(c.Open ? Idle : c.ActualTemperature > c.SetTemperature ? Cooling : Idle))
-
-                .When(Fridge.eDoorCloses, (m, s, e, c) =>
+                .When(Fridge.eTemperatureChanges, async (m, s, e, c) =>
                 {
-                    m.After(TimeSpan.FromSeconds(10), eDoorStaysClosed);
-                    return Task.FromResult(s);
+                    // Wait until the door closes to start the compressor
+                    if (c.Open) return s;  // stay in Idle state (or a descendant state of Idle)
+
+                    // Thermostat behavior
+                    else if (c.ActualTemperature > c.SetTemperature) return Cooling;
+                    else return s; // stay in Idle state (or a descendant state of Idle)
                 })
 
-                .When(Fridge.eDoorOpens, (m, s, e, c) =>
-                    { m.CancelScheduledEvent(eDoorStaysClosed); return Task.FromResult(s); })
+                .When(Fridge.eDoorCloses, async (m, s, e, c) =>
+                {
+                    // Don't start the compressor immediately, people tend to open and close doors repeatedly
+                    m.After(TimeSpan.FromSeconds(10), eDoorStaysClosed);
+                    return s;
+                })
+
+                .When(Fridge.eDoorOpens, async (m, s, e, c) =>
+                {
+                    m.CancelScheduledEvent(eDoorStaysClosed);
+                    return s;
+                })
                 // Comes on only after 10s with door closed
 
                 .When(eDoorStaysClosed, (m, s, e, c) =>
@@ -87,3 +100,5 @@ namespace AboditStateMachineTests
         }
     }
 }
+
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
